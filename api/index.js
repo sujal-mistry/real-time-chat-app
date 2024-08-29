@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const http = require("http");
+const socketIO = require("socket.io");
 var cors = require("cors");
 const {
   generateMessage,
@@ -13,23 +14,17 @@ const PORT = process.env.PORT || 4000;
 const host = "localhost";
 
 const app = express();
-app.use(cors());
 
 const server = http.createServer(app);
-
-const io = require("socket.io")(server, {
-  handlePreflightRequest: (req, res) => {
-    const headers = {
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-      "Access-Control-Allow-Credentials": true,
-    };
-    res.writeHead(200, headers);
-    res.end();
-  },
-});
 app.use(express.static(publicPath));
+app.use(cors());
+app.use(
+  cors({
+    origin: "https://real-time-chat-app-zeta.vercel.app",
+  })
+);
 
+var io = socketIO(server);
 var users = new Users();
 
 app.get("/", (req, res) => {
