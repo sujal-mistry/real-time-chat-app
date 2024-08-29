@@ -15,9 +15,16 @@ const host = "localhost";
 
 const app = express();
 
+const corsOptions = {
+  origin: "*", // Allow all origins
+  methods: ["GET", "POST"], // Specify allowed methods if necessary
+  allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers if necessary
+};
+
+app.use(cors(corsOptions));
+
 const server = http.createServer(app);
 app.use(express.static(publicPath));
-app.use(cors());
 
 var io = socketIO(server);
 var users = new Users();
