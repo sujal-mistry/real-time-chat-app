@@ -1,7 +1,7 @@
 const path = require("path");
 const express = require("express");
-const http = require("http");
-const socketIO = require("socket.io");
+const { createServer } = require("http");
+// const { Server } = require("socket.io");
 var cors = require("cors");
 const {
   generateMessage,
@@ -14,18 +14,18 @@ const PORT = process.env.PORT || 4000;
 const host = "localhost";
 
 const app = express();
+app.use(cors());
 
-const server = http.createServer(app);
-
-const io = require("socket.io")(server, {
-  handlePreflightRequest: (req, res) => {
-    const headers = {
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-      "Access-Control-Allow-Credentials": true,
-    };
-    res.writeHead(200, headers);
-    res.end();
+const httpServer = createServer(app);
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: [
+      "https://real-time-chat-app-react-seven.vercel.app",
+      "http://localhost:3000",
+      "https://real-time-chat-app-zeta.vercel.app",
+    ],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
   },
 });
 
@@ -103,6 +103,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Running on http://${host}:${PORT}`);
 });

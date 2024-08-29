@@ -7,7 +7,8 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "moment": "^2.22.2",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.5.1",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "jest": "^23.6.0",
