@@ -10,7 +10,7 @@ const {
 const { isRealString } = require("../utils/validation.js");
 const { Users } = require("../utils/users.js");
 const publicPath = path.join(__dirname, "../public");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const host = "localhost";
 
 const app = express();
