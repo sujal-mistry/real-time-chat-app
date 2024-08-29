@@ -15,18 +15,23 @@ const host = "localhost";
 
 const app = express();
 
-const corsOptions = {
-  origin: "*", // Allow all origins
-  methods: ["GET", "POST"], // Specify allowed methods if necessary
-  allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers if necessary
-};
-
-app.use(cors(corsOptions));
-
 const server = http.createServer(app);
+
+const io = require("socket.io")(server, {
+  handlePreflightRequest: (req, res) => {
+    const headers = {
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
+      "Access-Control-Allow-Credentials": true,
+    };
+    res.writeHead(200, headers);
+    res.end();
+  },
+});
+
 app.use(express.static(publicPath));
 
-var io = socketIO(server);
+// var io = socketIO(server);
 var users = new Users();
 
 app.get("/", (req, res) => {
@@ -34,6 +39,7 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  console.log("Connected!");
   socket.on("leave", (params) => {
     socket.leave(params.room);
   });
