@@ -14,10 +14,10 @@ const PORT = process.env.PORT || 4000;
 const host = "localhost";
 
 const app = express();
+app.use(cors());
 
 const server = http.createServer(app);
 app.use(express.static(publicPath));
-app.use(cors());
 
 var io = socketIO(server);
 var users = new Users();
