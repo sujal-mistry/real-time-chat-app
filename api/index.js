@@ -18,11 +18,6 @@ const app = express();
 const server = http.createServer(app);
 app.use(express.static(publicPath));
 app.use(cors());
-app.use(
-  cors({
-    origin: "https://real-time-chat-app-zeta.vercel.app",
-  })
-);
 
 var io = socketIO(server);
 var users = new Users();
