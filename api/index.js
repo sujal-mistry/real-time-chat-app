@@ -12,18 +12,24 @@ const { Users } = require("../utils/users.js");
 const publicPath = path.join(__dirname, "../public");
 const PORT = process.env.PORT || 4000;
 const host = "localhost";
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, // Access-Control-Allow-Credentials: true
-};
+
 const app = express();
-app.use(cors(corsOptions));
+app.use(cors());
 
 const httpServer = createServer(app);
-
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://real-time-chat-app-react-seven.vercel.app",
+];
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   },
 });
