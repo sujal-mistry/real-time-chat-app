@@ -19,11 +19,7 @@ app.use(cors());
 const httpServer = createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: [
-      "https://real-time-chat-app-react-seven.vercel.app",
-      "http://localhost:3000",
-      "https://real-time-chat-app-zeta.vercel.app",
-    ],
+    origin: "*", // Allow all origins
     allowedHeaders: ["my-custom-header"],
     credentials: true,
   },
