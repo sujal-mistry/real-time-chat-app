@@ -23,15 +23,12 @@ const allowedOrigins = [
 ];
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: function (origin, callback) {
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Authorization", "Content-Type", "*"],
     credentials: true,
   },
+  transports: ["websocket", "polling"], // Ensures both transports are supported
 });
 
 app.use(express.static(publicPath));
