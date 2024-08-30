@@ -17,13 +17,10 @@ const app = express();
 app.use(cors());
 
 const httpServer = createServer(app);
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://real-time-chat-app-react-seven.vercel.app",
-];
+
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000/chat/s/React%20JS",
     methods: ["GET", "POST"],
     allowedHeaders: ["Authorization", "Content-Type", "*"],
     credentials: true,
