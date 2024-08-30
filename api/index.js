@@ -20,7 +20,7 @@ const httpServer = createServer(app);
 
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://localhost:3000/chat/s/React%20JS",
+    origin: "*",
     methods: ["GET", "POST"],
     allowedHeaders: ["Authorization", "Content-Type", "*"],
     credentials: true,
